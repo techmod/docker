@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  filebeat9:
+    image: docker.elastic.co/beats/filebeat:7.13.0
+    container_name: filebeat9
+    user: root
+    environment:
+      - user=root
+      - setup.kibana.host=localhost:5601
+      - output.elasticsearch.hosts=["localhost:9200"]
+    
+
+    volumes:
+      - /root/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/log/:/var/log:ro
+    ports:
+      - 5044:5044
+
+    deploy:
+      replicas: 3
+
