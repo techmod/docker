@@ -1,0 +1,24 @@
+#compose file for create stack in use swarm
+version: '3.8'
+services:
+
+  logstash:
+    hostname: es01
+    image: log
+    volumes:
+      - /volume/logstash/pipeline/:/usr/share/logstash/pipeline/
+      - /volume/logstash/data/:/usr/share/logstash/data
+
+      - logstash
+
+    networks: 
+      - elastic
+
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == es01 
+
+networks:
+  elastic:
+    external: true
