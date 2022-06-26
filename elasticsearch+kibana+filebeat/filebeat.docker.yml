@@ -1,0 +1,26 @@
+#filebeat.config:
+  #modules:
+    #path: ${path.config}/modules.d/*.yml
+    #reload.enabled: false
+filebeat.inputs:
+- type: log
+  paths:
+    - /var/log/messages
+    - /var/log/*.log
+    - /var/log/salam/*.log
+    - /var/log/elvis.json
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+processors:
+- add_cloud_metadata: ~
+
+output.elasticsearch:
+  #hosts: '${ELASTICSEARCH_HOSTS:192.168.143.34:9200}'
+  #username: '${ELASTICSEARCH_USERNAME:******}'
+  #password: '${ELASTICSEARCH_PASSWORD:******}'
+  hosts: '${ELASTICSEARCH_HOSTS:elasticsearch:9200}'
+
